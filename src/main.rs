@@ -1,3 +1,9 @@
-fn main() {
-    println!("Hello, world!");
+mod camera;
+
+fn main() -> Result<(), String> {
+    camera::Camera::new()?;
+
+    println!("Camera initialized.");
+
+    Ok(())
 }
