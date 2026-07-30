@@ -2,18 +2,20 @@ mod camera;
 
 fn main() -> Result<(), String> {
     println!("");
-    println!("== ここからmain処理開始 ==");
+    println!("== Main Process Start ==");
     println!("");
 
     let c = camera::Camera::new(1920, 1080)?;
+    let f_name = camera::Camera::create_file_name();
 
     println!("Camera initialized.");
 
     camera::Camera::print_info(&c);
-    c.capture("test_file.jpg")?;
+    c.capture(&f_name)?;
+    println!("Saved as \"{}\"", &f_name);
 
     println!("");
-    println!("== ここでmain処理終了 ==");
+    println!("== Main Process End ==");
     println!("");
     Ok(())
 }

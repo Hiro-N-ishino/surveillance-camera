@@ -1,4 +1,14 @@
+use chrono::Local;
 use std::process::Command;
+
+/*
+#[derive(Debug)]
+pub enum CameraError {
+    CommandError(String),
+    CaptureFailed,
+    ConvertError(String),
+}
+*/
 
 pub struct Camera {
     width: u32,
@@ -7,12 +17,12 @@ pub struct Camera {
 
 impl Camera {
     pub fn new(width: u32, height: u32) -> Result<Self, String> {
-        let success = true;
-        if success {
-            Ok(Self { width, height })
-        } else {
-            Err(String::from("Error"))
-        }
+        Ok(Self { width, height })
+    }
+
+    pub fn create_file_name() -> String {
+        let now = Local::now();
+        format!("{}.jpg", now.format("%Y%m%d_%H%M%S"))
     }
 
     pub fn print_info(&self) {
@@ -20,25 +30,18 @@ impl Camera {
     }
 
     pub fn capture(&self, file_name: &str) -> Result<(), String> {
-        let success = true;
+        let output = Command::new("rpicam-still")
+            .arg("-o")
+            .arg(file_name)
+            .arg("--nopreview")
+            .output()
+            .map_err(|e| e.to_string())?;
 
-        if success {
-            let output = Command::new("echo")
-                .arg("Hello")
-                .arg("Camera")
-                .output()
-                .map_err(|e| e.to_string())?;
-
-            //println!("{:?}", output);
-            //println!("{}", String::from_utf8(output.stdout).unwrap());
-            println!(
-                "{}",
-                String::from_utf8(output.stdout).map_err(|e| e.to_string())?
-            );
-
+        if output.status.success() {
             Ok(())
         } else {
-            Err(String::from("Error"))
+            //Err(String::from("Capture failed."))
+            Err(String::from_utf8(output.stderr).map_err(|e| e.to_string())?)
         }
     }
 }
