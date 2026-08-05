@@ -1,0 +1,7 @@
+[camera]
+width = 1920
+height = 1080
+
+[capture]
+interval_sec = 5
+max_consecutive_errors = 5
