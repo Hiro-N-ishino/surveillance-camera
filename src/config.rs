@@ -6,6 +6,7 @@ use std::time::Duration;
 pub struct Config {
     pub camera: CameraConfig,
     pub capture: CaptureConfig,
+    pub upload: UploadConfig,
 }
 
 impl Config {
@@ -33,4 +34,9 @@ impl CaptureConfig {
     pub fn interval_duration(&self) -> Duration {
         Duration::from_secs(self.interval_sec)
     }
+}
+
+#[derive(Deserialize, Debug)]
+pub struct UploadConfig {
+    pub worker_url: String,
 }

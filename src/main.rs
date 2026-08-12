@@ -1,6 +1,8 @@
 mod camera;
+mod capture_cycle;
 mod config;
 mod fs;
+mod upload;
 
 use std::thread;
 
@@ -14,15 +16,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     c.print_info();
 
     loop {
-        let f_name = fs::create_file_name();
-
-        match c.capture(&f_name) {
+        match capture_cycle::run(&c, &conf.upload) {
             Ok(_) => {
-                println!("Saved as \"{}\"", &f_name);
                 consecutive_error_count = 0;
             }
             Err(e) => {
-                eprintln!("Capture error: \"{}\"", e);
+                eprintln!("Capture cycle error: \"{}\"", e);
                 consecutive_error_count += 1;
 
                 if consecutive_error_count >= conf.capture.max_consecutive_errors {

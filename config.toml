@@ -5,3 +5,6 @@ height = 1080
 [capture]
 interval_sec = 5
 max_consecutive_errors = 5
+
+[upload]
+worker_url = "https://surveillance-camera-api.rm-no-preserve-root-rf.workers.dev"
