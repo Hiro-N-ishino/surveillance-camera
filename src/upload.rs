@@ -6,9 +6,17 @@ pub fn upload(file_name: &str, worker_url: &str) -> Result<(), Box<dyn Error>> {
 
     println!("Image loaded: {} bytes", image.len());
 
+    let username = std::env::var("CAMERA_USERNAME")?;
+    let password = std::env::var("CAMERA_PASSWORD")?;
+
     let client = reqwest::blocking::Client::new();
     let url = format!("{}?filename={}", worker_url, file_name);
-    let response = client.post(&url).body(image).send()?;
+    //let response = client.post(&url).body(image).send()?;
+    let response = client
+        .post(&url)
+        .basic_auth(username, Some(password))
+        .body(image)
+        .send()?;
 
     if response.status().is_success() {
         println!("Upload succeeded.");
