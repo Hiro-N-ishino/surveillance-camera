@@ -2,6 +2,8 @@ mod camera;
 mod capture_cycle;
 mod config;
 mod fs;
+mod observation;
+mod sensor;
 mod upload;
 
 use std::thread;
@@ -15,8 +17,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     c.print_info();
 
+    let mut sensor = sensor::Sensor::new()?;
+
     loop {
-        match capture_cycle::run(&c, &conf.upload) {
+        match capture_cycle::run(&c, &mut sensor, &conf.upload) {
             Ok(_) => {
                 consecutive_error_count = 0;
             }
