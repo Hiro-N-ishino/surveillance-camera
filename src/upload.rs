@@ -15,6 +15,7 @@ pub fn upload(observation: &Observation, worker_url: &str) -> Result<(), Box<dyn
     let response = client
         .post(&url)
         .basic_auth(username, Some(password))
+        .header("X-Captured-At", observation.captured_at.to_rfc3339())
         .header("X-Temperature", observation.temperature.to_string())
         .header("X-Humidity", observation.humidity.to_string())
         .body(image)

@@ -32,9 +32,11 @@ pub fn run(
         observation.file_name, observation.temperature, observation.humidity
     );
 
-    upload::upload(&observation, &upload_config.worker_url)?;
+    let upload_result = upload::upload(&observation, &upload_config.worker_url);
 
     std::fs::remove_file(&observation.file_name)?;
+
+    upload_result?;
 
     Ok(())
 }
