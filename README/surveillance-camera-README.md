@@ -9,7 +9,7 @@ Androidアプリから最新画像と温湿度履歴を参照できます。
 
 ## システム構成
 
-![データフロー](README/data-flow.jpg)
+![データフロー](data-flow.jpg)
 
 本システムは、Raspberry Pi上のRustアプリケーション、Cloudflare Workers API、
 Cloudflare R2、Androidアプリで構成されています。
@@ -23,7 +23,7 @@ Cloudflare R2、Androidアプリで構成されています。
 
 ## 処理フロー
 
-![処理フロー](README/processing-flow.jpg)
+![処理フロー](processing-flow.jpg)
 
 ## 主な機能
 
